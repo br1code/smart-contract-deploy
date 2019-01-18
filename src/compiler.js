@@ -16,6 +16,7 @@ const Config = {
  * and only have ONE contract defined in your file, otherwise it will be ignored
  * @param {string} contractName - The name of the contract < Ex: contract ContractName { } >
  * @param {string} fileName - The name of the Solidity file < Ex: 'contract.sol' >
+ * @param {Function} callback - The callback for deploy the contract
  */
 function Compile(contractName, fileName, callback) {
     if (!contractName || !fileName || !callback)

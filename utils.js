@@ -5,13 +5,7 @@ function exitWithMessage(message) {
     process.exit();
 }
 
-function isString(value) {
-    return typeof value === "string";
-}
-
-
 module.exports = { 
     exitWithMessage, 
-    isString,
     rootDirectory: __dirname
 };
