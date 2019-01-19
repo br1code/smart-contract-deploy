@@ -1,9 +1,13 @@
 module.exports = {
-    gas: '',
-    phrase: '',
-    address: '',
-    network: '',
-    contractName: 'Inbox',
-    arguments: ['hello there!'],
-    contractFileName: 'ContractDemo.sol'
+    contract: {
+        name: 'Inbox',
+        fileName: 'ContractDemo.sol',
+        arguments: ['hello there!']
+    },
+    transaction: {
+        gas: '',
+        address: '',
+        network: '',
+        phrase: ''
+    }
 };

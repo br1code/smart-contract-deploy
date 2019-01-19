@@ -5,7 +5,13 @@ function exitWithMessage(message) {
     process.exit();
 }
 
+function selectAccount(accounts, address) {
+    if (!address) return accounts[0];
+    return accounts.find(a => a === address) || accounts[0];
+}
+
 module.exports = { 
-    exitWithMessage, 
+    selectAccount,
+    exitWithMessage,
     rootDirectory: __dirname
 };

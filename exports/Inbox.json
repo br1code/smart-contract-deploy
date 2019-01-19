@@ -1,0 +1,47 @@
+{
+    "address": "0x83f14B9Ba0Ffbf4e7B599ca62D7638E9E1658e14",
+    "abi": [
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "newMessage",
+                    "type": "string"
+                }
+            ],
+            "name": "setMessage",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function",
+            "signature": "0x368b8772"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "message",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function",
+            "signature": "0xe21f37ce"
+        },
+        {
+            "inputs": [
+                {
+                    "name": "initialMessage",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "constructor",
+            "signature": "constructor"
+        }
+    ]
+}

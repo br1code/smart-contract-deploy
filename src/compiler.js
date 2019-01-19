@@ -16,40 +16,36 @@ const Config = {
  * and only have ONE contract defined in your file, otherwise it will be ignored
  * @param {string} contractName - The name of the contract < Ex: contract ContractName { } >
  * @param {string} fileName - The name of the Solidity file < Ex: 'contract.sol' >
- * @param {Function} callback - The callback for deploy the contract
  */
-function Compile(contractName, fileName, callback) {
-    if (!contractName || !fileName || !callback)
-        utils.exitWithMessage('The contract file and name are required to compile.\nThe callback is required');
-
-    const contractPath = path.resolve(utils.rootDirectory, 'contracts', fileName);
+function Compile(contractName, fileName) {
+    if (!contractName || !fileName)
+        utils.exitWithMessage('The contract file and name are required to compile');
+    
+    let contractPath = path.resolve(utils.rootDirectory, 'contracts', fileName);
 
     console.log('Reading contract file ...');
 
-    fs.readFile(contractPath, 'utf8', (error, sourceCode) => {
+    let contentFile = fs.readFileSync(contractPath, 'utf8');
 
-        if (error || !sourceCode) {
-            let errorMessage = 'The solidity file could not be read, make sure your file is saved in';
-            utils.exitWithMessage(`${errorMessage} ${utils.rootDirectory}/contracts`);
-        }
-        
-        let source = {
-            language: Config.language,
-            sources: { [fileName]: { content: sourceCode } },
-            settings: Config.settings
-        };
+    if (!contentFile) {
+        let errorMessage = 'The solidity file could not be read, make sure your file is saved in';
+        utils.exitWithMessage(`${errorMessage} ${utils.rootDirectory}/contracts`);
+    }
 
-        console.log('Compiling ...')
+    let sourceCode = {
+        language: Config.language,
+        sources: { [fileName]: { content: contentFile } },
+        settings: Config.settings
+    };
 
-        let output = JSON.parse(solc.compile(JSON.stringify(source)));
+    console.log('Compiling ...');
 
-        let contract = {
-            abi: output.contracts[fileName][contractName].abi,
-            bytecode: '0x' + output.contracts[fileName][contractName].evm.bytecode.object
-        };
-        
-        callback(contract);
-    });
+    let output = JSON.parse(solc.compile(JSON.stringify(sourceCode)));
+
+    return {
+        abi: output.contracts[fileName][contractName].abi,
+        bytecode: '0x' + output.contracts[fileName][contractName].evm.bytecode.object
+    };
 }
 
 module.exports = { Config, Compile };

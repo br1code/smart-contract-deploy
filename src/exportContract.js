@@ -1,11 +1,11 @@
-module.exports = function(address, abi) {
+module.exports = function(address, abi, name) {
     'use strict';
 
     const fs = require('fs');
     const utils = require('../utils');
 
-    let data = `Contract deployed to ${address}\n\nAbi: ${abi}`;
-    let path = utils.rootDirectory + '/' + 'contractData.txt';
+    let data = JSON.stringify({address, abi}, null, 4);
+    let path = `${utils.rootDirectory}/exports/${name}.json`;
 
     fs.writeFile(path, data, (err) => {
         if (err) utils.exitWithMessage('Error, the contract could not be exported');

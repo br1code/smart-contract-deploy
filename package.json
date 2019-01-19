@@ -1,17 +1,16 @@
 {
-  "name": "lottery",
+  "name": "smart-contract-deploy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node deploy.js"
+    "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "br1code",
   "license": "ISC",
   "dependencies": {
-    "ganache-cli": "^6.2.5",
     "solc": "^0.5.2",
     "truffle-hdwallet-provider": "^1.0.2",
     "web3": "^1.0.0-beta.26"
