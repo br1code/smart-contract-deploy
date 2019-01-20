@@ -9,4 +9,6 @@ const config = require('./config');
 const provider = new HDWallerProvider(config.transaction.phrase, config.transaction.network);
 const web3 = new Web3(provider);
 
-deployer.Deploy(web3, config);
+deployer.Deploy(web3, config).catch((err) => {
+    console.error('Error: ' + err);
+});

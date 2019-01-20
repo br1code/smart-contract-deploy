@@ -1,7 +1,7 @@
 module.exports = {
     contract: {
         name: 'Inbox',
-        fileName: 'ContractDemo.sol',
+        fileName: 'Inbox.sol',
         arguments: ['hello there!']
     },
     transaction: {
