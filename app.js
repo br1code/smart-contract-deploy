@@ -1,14 +1,9 @@
-'use strict';
-
-const Web3 = require('web3');
-const HDWallerProvider = require('truffle-hdwallet-provider');
+const utils = require('./utils');
+const config = require('./config');
 const deployer = require('./src/deployer');
 
-const config = require('./config');
+utils.validateConfig(config);
 
-const provider = new HDWallerProvider(config.transaction.phrase, config.transaction.network);
-const web3 = new Web3(provider);
-
-deployer.Deploy(web3, config).catch((err) => {
-    console.error('Error: ' + err);
+deployer.Deploy(config).catch((err) => {
+    console.error('Error: ' + err.message);
 });

@@ -1,33 +1,38 @@
 'use strict';
 
+const Web3 = require('web3');
+const HDWallerProvider = require('truffle-hdwallet-provider');
+
 const utils = require('../utils');
 const compiler = require('./compiler');
 const exportContract = require('./exportContract');
 
 /**
  * Compile, deploy and export a contract in the root directory
- * @param {Web3} web3 - Web3 instance with a provider
- * @param {Object} config - Some configurations to compile and send the transaction
+ * @param {Object} config - Some configurations to compile and deploy the contract
  */
-async function Deploy(web3, config) {
-    if (!web3 || !config || !config.transaction.phrase || !config.transaction.network)
-        utils.exitWithMessage("Web3 instance and contract configuration are required");
+async function Deploy(config) {
+    let provider = new HDWallerProvider(config.transaction.phrase, config.transaction.network);
+    let web3 = new Web3(provider);
 
-    const contract = compiler.Compile(config.contract.name, config.contract.fileName);
-    const accounts = await web3.eth.getAccounts();
+    let compiledContract = compiler.Compile({ 
+        name: config.contract.name, 
+        fileName: config.contract.fileName 
+    });
 
-    if (!accounts.length)
-        utils.exitWithMessage("There was a problem getting the accounts, check your config file");
+    console.log('Fetching accounts ...');
 
-    const account = utils.selectAccount(accounts, config.transaction.address);
+    let account = utils.selectAccount(await web3.eth.getAccounts(), config.transaction.address);
 
-    console.log(`Attempting to deploy contract from account ${account} ... \n`);
+    console.log(`Attempting to deploy contract from account ${account} ...`);
 
-    const deployedContract = await new web3.eth.Contract(contract.abi)
-        .deploy({ data: contract.bytecode, arguments: config.contract.arguments })
+    let contract = await new web3.eth.Contract(compiledContract.abi)
+        .deploy({ data: compiledContract.bytecode, arguments: config.contract.arguments })
         .send({ from: account, gas: config.transaction.gas || '1000000' });
-    
-    exportContract(deployedContract.options.address, contract.abi, config.contract.name);
+
+    console.log('Contract deployed successfully');
+
+    exportContract(contract, config.contract.name);
 }
 
 module.exports = { Deploy };

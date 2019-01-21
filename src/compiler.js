@@ -13,38 +13,29 @@ const Config = {
 /**
  * Compiles a single contract and returns a JavaScript Object of it. 
  * Make sure to save your Solidity files in the 'contracts' directory 
- * and only have ONE contract defined in your file, otherwise it will be ignored
- * @param {string} contractName - The name of the contract < Ex: contract ContractName { } >
- * @param {string} fileName - The name of the Solidity file < Ex: 'contract.sol' >
+ * and only have ONE contract defined in your file, otherwise it will be ignored.
+ * @param {Object} contractData - The name and file name of the contract
  */
-function Compile(contractName, fileName) {
-    if (!contractName || !fileName)
-        utils.exitWithMessage('The contract file and name are required to compile');
-    
-    let contractPath = path.resolve(utils.rootDirectory, 'contracts', fileName);
+function Compile(contractData) {      
+    let contractPath = path.resolve(utils.rootDirectory, 'contracts', contractData.fileName);
 
-    console.log('Reading contract file ...');
+    console.log('Reading the file ...');
 
     let contentFile = fs.readFileSync(contractPath, 'utf8');
 
-    if (!contentFile) {
-        let errorMessage = 'The solidity file could not be read, make sure your file is saved in';
-        utils.exitWithMessage(`${errorMessage} ${utils.rootDirectory}/contracts`);
-    }
-
-    let sourceCode = {
+    let source = {
         language: Config.language,
-        sources: { [fileName]: { content: contentFile } },
-        settings: Config.settings
+        settings: Config.settings,
+        sources: { [contractData.fileName]: { content: contentFile } }
     };
 
     console.log('Compiling ...');
 
-    let output = JSON.parse(solc.compile(JSON.stringify(sourceCode)));
+    let output = JSON.parse(solc.compile(JSON.stringify(source)));
 
     return {
-        abi: output.contracts[fileName][contractName].abi,
-        bytecode: '0x' + output.contracts[fileName][contractName].evm.bytecode.object
+        abi: output.contracts[contractData.fileName][contractData.name].abi,
+        bytecode: '0x' + output.contracts[contractData.fileName][contractData.name].evm.bytecode.object
     };
 }
 

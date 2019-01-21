@@ -1,4 +1,4 @@
-# Smart Contract Deploy
+# Smart Contract Deploy - br1code
 
 ## Requirements
 - [Node.js](https://nodejs.org)
@@ -21,19 +21,19 @@
     ```
 - Write and save your contract file (.sol) in **/contracts**. Example: 
     ```javascript
-        pragma solidity ^0.5.0;
+    pragma solidity ^0.5.0;
 
-        contract Inbox {
-            string public message;
+    contract Inbox {
+        string public message;
 
-            constructor(string memory initialMessage) public {
-                message = initialMessage;
-            }
-
-            function setMessage(string memory newMessage) public {
-                message = newMessage;
-            }
+        constructor(string memory initialMessage) public {
+            message = initialMessage;
         }
+
+        function setMessage(string memory newMessage) public {
+            message = newMessage;
+        }
+    }
     ```
 - Edit the **config.js** file placed in the root directory
     ```javascript
